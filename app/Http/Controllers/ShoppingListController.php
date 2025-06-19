@@ -24,9 +24,12 @@ class ShoppingListController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
         ]);
-        ShoppingList::create($validated);
-        return redirect()->route('shopping_lists.index')->with('success', 'List created successfully!');
+
+        $list = ShoppingList::create($validated);
+
+        return redirect()->route('shopping_lists.edit', $list)->with('success', 'List created successfully!');
     }
+
 
     public function show(ShoppingList $shoppingList)
     {
