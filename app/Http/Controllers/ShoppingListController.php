@@ -10,7 +10,7 @@ class ShoppingListController extends Controller
 {
     public function index()
     {
-        $shoppingLists = ShoppingList::all();
+        $shoppingLists = ShoppingList::orderBy('updated_at', 'desc')->get();
         return view('shopping_lists.index', compact('shoppingLists'));
     }
 
