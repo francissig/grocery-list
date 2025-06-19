@@ -13,6 +13,8 @@ Route::post('/shopping-lists', [ShoppingListController::class, 'store'])->name('
 Route::get('/shopping-lists/{shoppingList}', [ShoppingListController::class, 'show'])->name('shopping_lists.show');
 Route::get('/shopping-lists/{shoppingList}/edit', [ShoppingListController::class, 'edit'])->name('shopping_lists.edit');
 Route::put('/shopping-lists/{shoppingList}', [ShoppingListController::class, 'update'])->name('shopping_lists.update');
+Route::delete('/shopping-lists/{shoppingList}', [ShoppingListController::class, 'destroy'])->name('shopping_lists.destroy');
+
 
 Route::post('/shopping-lists/{shoppingList}/items', [ItemController::class, 'store'])->name('items.store');
 Route::patch('/items/{item}/toggle', [ItemController::class, 'toggle'])->name('items.toggle');

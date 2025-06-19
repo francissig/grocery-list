@@ -10,8 +10,8 @@ class ShoppingListController extends Controller
 {
     public function index()
     {
-        $lists = ShoppingList::all();
-        return view('shopping_lists.index', compact('lists'));
+        $shoppingLists = ShoppingList::all();
+        return view('shopping_lists.index', compact('shoppingLists'));
     }
 
     public function create()
@@ -43,5 +43,11 @@ class ShoppingListController extends Controller
         $request->validate(['title' => 'required|string|max:255']);
         $shoppingList->update(['title' => $request->title]);
         return redirect()->route('shopping_lists.show', $shoppingList);
+    }
+
+    public function destroy(ShoppingList $shoppingList)
+    {
+        $shoppingList->delete();
+        return redirect()->route('shopping_lists.index')->with('success', 'List deleted!');
     }
 }
