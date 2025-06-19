@@ -35,7 +35,9 @@ class ShoppingListController extends Controller
 
     public function edit(ShoppingList $shoppingList)
     {
-        return view('shopping_lists.edit', compact('shoppingList'));
+        $categories = \App\Models\Category::all();
+
+        return view('shopping_lists.edit', compact('shoppingList', 'categories'));
     }
 
     public function update(Request $request, ShoppingList $shoppingList)
