@@ -32,4 +32,16 @@ class ShoppingListController extends Controller
         $shoppingList->load('items.category');
         return view('shopping_lists.show', compact('shoppingList', 'categories'));
     }
+
+    public function edit(ShoppingList $shoppingList)
+    {
+        return view('shopping_lists.edit', compact('shoppingList'));
+    }
+
+    public function update(Request $request, ShoppingList $shoppingList)
+    {
+        $request->validate(['title' => 'required|string|max:255']);
+        $shoppingList->update(['title' => $request->title]);
+        return redirect()->route('shopping_lists.show', $shoppingList);
+    }
 }
