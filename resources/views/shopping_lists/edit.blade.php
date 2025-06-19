@@ -5,20 +5,31 @@
         <div class="w-full max-w-xl bg-white shadow rounded p-6 space-y-6 text-left">
             <h2 class="text-2xl font-bold text-gray-800">Edit List</h2>
 
+            @if ($errors->any())
+                <div class="mb-4 p-4 bg-red-100 text-red-700 rounded">
+                    <ul class="list-disc list-inside">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            @if (session('success'))
+                <div class="mb-4 p-4 bg-green-100 text-green-700 rounded">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+
             <form action="{{ route('shopping_lists.update', $shoppingList) }}" method="POST" class="space-y-4">
                 @csrf
                 @method('PUT')
 
                 <div>
                     <label for="title" class="block font-medium text-gray-700 mb-1">Title</label>
-                    <input
-                        type="text"
-                        name="title"
-                        id="title"
-                        value="{{ $shoppingList->title }}"
-                        required
-                        class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
+                    <input type="text" name="title" id="title" value="{{ $shoppingList->title }}" required
+                        class="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
 
                 <button type="submit" class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700">
@@ -34,13 +45,8 @@
                 <form action="{{ route('items.store', $shoppingList) }}" method="POST" class="flex gap-2">
                     @csrf
                     <input type="hidden" name="category_id" value="{{ $category->id }}">
-                    <input
-                        type="text"
-                        name="name"
-                        placeholder="Add an item"
-                        required
-                        class="flex-1 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
+                    <input type="text" name="name" placeholder="Add an item" required
+                        class="flex-1 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
                         Add
                     </button>
@@ -53,7 +59,8 @@
                                 <form method="POST" action="{{ route('items.toggle', $item) }}">
                                     @csrf
                                     @method('PATCH')
-                                    <input type="checkbox" onchange="this.form.submit()" {{ $item->purchased ? 'checked' : '' }}>
+                                    <input type="checkbox" onchange="this.form.submit()"
+                                        {{ $item->purchased ? 'checked' : '' }}>
                                 </form>
 
                                 <span class="{{ $item->purchased ? 'line-through text-gray-500' : 'text-gray-800' }}">
@@ -72,7 +79,8 @@
             </div>
         @endforeach
 
-        <a href="{{ route('shopping_lists.show', $shoppingList) }}" class="bg-gray-300 text-gray-800 px-6 py-2 rounded hover:bg-gray-400">
+        <a href="{{ route('shopping_lists.show', $shoppingList) }}"
+            class="bg-gray-300 text-gray-800 px-6 py-2 rounded hover:bg-gray-400">
             Back to List
         </a>
     </div>

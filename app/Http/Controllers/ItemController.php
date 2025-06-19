@@ -10,15 +10,16 @@ class ItemController extends Controller
 {
     public function store(Request $request, ShoppingList $shoppingList)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
         ]);
 
-        $shoppingList->items()->create($request->only('name', 'category_id'));
+        $shoppingList->items()->create($validated);
 
-        return redirect()->route('shopping_lists.show', $shoppingList)->with('success', 'Item added!');
+        return redirect()->back()->with('success', 'Item added successfully!');
     }
+
 
     public function toggle(Item $item)
     {

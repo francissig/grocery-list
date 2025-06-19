@@ -21,9 +21,11 @@ class ShoppingListController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate(['title' => 'required|string|max:255']);
-        $list = ShoppingList::create(['title' => $request->title]);
-        return redirect()->route('shopping_lists.show', $list);
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+        ]);
+        ShoppingList::create($validated);
+        return redirect()->route('shopping_lists.index')->with('success', 'List created successfully!');
     }
 
     public function show(ShoppingList $shoppingList)
@@ -42,9 +44,11 @@ class ShoppingListController extends Controller
 
     public function update(Request $request, ShoppingList $shoppingList)
     {
-        $request->validate(['title' => 'required|string|max:255']);
-        $shoppingList->update(['title' => $request->title]);
-        return redirect()->route('shopping_lists.show', $shoppingList);
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+        ]);
+        $shoppingList->update($validated);
+        return redirect()->route('shopping_lists.index')->with('success', 'List updated successfully!');
     }
 
     public function destroy(ShoppingList $shoppingList)

@@ -2,7 +2,25 @@
 
 @section('content')
     <div class="min-h-screen flex flex-col items-center justify-center px-4 py-10 space-y-10 bg-gray-50">
+
         <h2 class="text-3xl font-bold text-gray-800">{{ $shoppingList->title }}</h2>
+
+        @if ($errors->any())
+            <div class="mb-4 p-4 bg-red-100 text-red-700 rounded">
+                <ul class="list-disc list-inside">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        @if (session('success'))
+            <div class="mb-4 p-4 bg-green-100 text-green-700 rounded">
+                {{ session('success') }}
+            </div>
+        @endif
+
 
         @foreach ($categories as $category)
             <div class="w-full max-w-xl bg-white shadow rounded p-6 space-y-4 text-left">
@@ -15,7 +33,8 @@
                                 <form method="POST" action="{{ route('items.toggle', $item) }}">
                                     @csrf
                                     @method('PATCH')
-                                    <input type="checkbox" onchange="this.form.submit()" {{ $item->purchased ? 'checked' : '' }}>
+                                    <input type="checkbox" onchange="this.form.submit()"
+                                        {{ $item->purchased ? 'checked' : '' }}>
                                 </form>
 
                                 <span class="{{ $item->purchased ? 'line-through text-gray-500' : 'text-gray-800' }}">
@@ -37,11 +56,13 @@
         @endforeach
 
         <div class="flex gap-4">
-            <a href="{{ route('shopping_lists.index') }}" class="bg-gray-300 text-gray-800 px-5 py-2 rounded hover:bg-gray-400">
+            <a href="{{ route('shopping_lists.index') }}"
+                class="bg-gray-300 text-gray-800 px-5 py-2 rounded hover:bg-gray-400">
                 Back
             </a>
 
-            <a href="{{ route('shopping_lists.edit', $shoppingList) }}" class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700">
+            <a href="{{ route('shopping_lists.edit', $shoppingList) }}"
+                class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700">
                 Edit List
             </a>
         </div>
